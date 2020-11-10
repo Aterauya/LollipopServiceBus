@@ -11,7 +11,13 @@ namespace LollipopServiceBus.AzureServiceBus
     public class AzureServiceBusClient : IBusClient
     {
         private List<ITopicClient> topicClients;
-        private List<ISubscriptionClient> subscriptionClients; 
+        private List<ISubscriptionClient> subscriptionClients;
+        private readonly string _serviceBusConnectionString;
+
+        public AzureServiceBusClient(string connectionString)
+        {
+            _serviceBusConnectionString = connectionString;
+        }
 
 
         /// <inheritdoc />
@@ -27,17 +33,17 @@ namespace LollipopServiceBus.AzureServiceBus
         }
 
         /// <inheritdoc />
-        public void AddTopic(string connectionString, string topicName)
+        public void AddTopic( string topicName)
         {
-            var topicClient = new TopicClient(connectionString, topicName);
+            var topicClient = new TopicClient(_serviceBusConnectionString, topicName);
             topicClients.Add(topicClient);
             
         }
 
         /// <inheritdoc />
-        public void AddSubscription(string connectionString, string topicName, string subscriptionName, IMessageHandler messageHandler)
+        public void AddSubscription(string topicName, string subscriptionName, IMessageHandler messageHandler)
         {
-            var subscriptionClient = new SubscriptionClient(connectionString, topicName, subscriptionName);
+            var subscriptionClient = new SubscriptionClient(_serviceBusConnectionString, topicName, subscriptionName);
             subscriptionClients.Add(subscriptionClient);
             RegisterMessageHandler(messageHandler, subscriptionClient);
         }

@@ -20,7 +20,7 @@ namespace LollipopServiceBus.Interfaces
         /// </summary>
         /// <param name="connectionString">The azure service bus connection string</param>
         /// <param name="topicName">The topic to send the message to</param>
-        void AddTopic(string connectionString, string topicName);
+        void AddTopic( string topicName);
 
         /// <summary>
         /// Adds a new subscription to the client
@@ -28,6 +28,6 @@ namespace LollipopServiceBus.Interfaces
         /// <param name="connectionString">The azure service bus connection string</param>
         /// <param name="topicName">The topic to read messages from</param>
         /// <param name="subscriptionName">The subscription to connect to</param>
-        void AddSubscription(string connectionString, string topicName, string subscriptionName, IMessageHandler messageHandler);
+        void AddSubscription(string topicName, string subscriptionName, IMessageHandler messageHandler);
     }
 }
