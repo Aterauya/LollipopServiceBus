@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using LollipopServiceBus;
 using LollipopServiceBus.Interfaces;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace ServiceBusTestRecieve
 {
@@ -24,7 +26,8 @@ namespace ServiceBusTestRecieve
 
         public Task Handle(Message message, CancellationToken token)
         {
-            Console.WriteLine(message.Body);
+            var data = JsonConvert.DeserializeObject<BusMessage>(Encoding.UTF8.GetString(message.Body));
+            Console.WriteLine(data);
             Console.ReadKey();
             return Task.CompletedTask;
         }

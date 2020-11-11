@@ -23,14 +23,14 @@ namespace ServiceBusTest1
             _busClient.AddTopic(_configuration["testTopic"]);
         }
 
-        public Task SendMessage()
+        public async Task SendMessage()
         {
             var message = new TestBusMessage
             {
                 Message = "Hello cunts"
             };
             Console.WriteLine("Sending Message" + message.Message + " to " + _configuration["testTopic"]);
-            return _busClient.SendMessage(message,  _configuration["testTopic"]);
+            await _busClient.SendMessage(message,  _configuration["testTopic"]);
         }
     }
 }

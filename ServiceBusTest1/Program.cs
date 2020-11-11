@@ -23,7 +23,6 @@ namespace ServiceBusTest1
 
             serviceProvider.GetService<IMessageSender>().SendMessage();
             Console.ReadKey();
-
         }
     }
 }

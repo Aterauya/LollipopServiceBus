@@ -5,7 +5,7 @@ using Microsoft.Azure.ServiceBus;
 
 namespace LollipopServiceBus
 {
-    public class BusMessage : Message
+    public class BusMessage
     {
     }
 }

@@ -27,6 +27,7 @@ namespace ServiceBusTestRecieve
                 .AddSubscription(_configuration["testTopic"], _configuration["testSubscription"], 
                     serviceProvider.GetService<IMessageHandler>());
 
+            Console.ReadKey();
         }
     }
 }
