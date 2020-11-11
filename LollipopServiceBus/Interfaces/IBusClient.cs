@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LollipopServiceBus.Interfaces
 {
-    interface IBusClient
+    public interface IBusClient
     {
         /// <summary>
         /// Sends the message to the given topic

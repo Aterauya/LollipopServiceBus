@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using LollipopServiceBus.Interfaces;
 using Microsoft.Azure.ServiceBus;
@@ -16,6 +17,9 @@ namespace LollipopServiceBus.AzureServiceBus
 
         public AzureServiceBusClient(string connectionString)
         {
+            topicClients = new List<ITopicClient>();
+            subscriptionClients = new List<ISubscriptionClient>();
+
             _serviceBusConnectionString = connectionString;
         }
 
@@ -66,7 +70,16 @@ namespace LollipopServiceBus.AzureServiceBus
                 AutoComplete = false
             };
 
-            subClient.RegisterMessageHandler(messageHandler.Handle, messageHandlerOptions);
+            subClient.RegisterMessageHandler(ProcessMessageAsync, messageHandlerOptions);
+        }
+
+        private async Task ProcessMessageAsync(Message message, CancellationToken token)
+        {
+            Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
+
+            // Complete the message so that it is not received again.
+            // This can be done only if the subscriptionClient is created in ReceiveMode.PeekLock mode (which is the default).
+            await subscriptionClients[0].CompleteAsync(message.SystemProperties.LockToken);
         }
 
         private Task ExceptionRecievedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
