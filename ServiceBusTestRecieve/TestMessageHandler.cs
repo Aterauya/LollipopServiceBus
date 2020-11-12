@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Common;
 using LollipopServiceBus;
 using LollipopServiceBus.Interfaces;
 using Microsoft.Azure.ServiceBus;
@@ -26,8 +27,8 @@ namespace ServiceBusTestRecieve
 
         public Task Handle(Message message, CancellationToken token)
         {
-            var data = JsonConvert.DeserializeObject<BusMessage>(Encoding.UTF8.GetString(message.Body));
-            Console.WriteLine(data);
+            var data = JsonConvert.DeserializeObject<TestBusMessage>(Encoding.UTF8.GetString(message.Body));
+            Console.WriteLine(data.Message);
             Console.ReadKey();
             return Task.CompletedTask;
         }
